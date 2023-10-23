@@ -224,7 +224,7 @@ const page = () => {
 
   // this is image dailog viewer
 
-  const [viewImage, setViewImage] = useState(null)
+  const [viewImage, setViewImage] = useState('')
   const [fullImage, setFullImage] = useState(false)
 
   const handlefullImage = (v)=>{
@@ -489,7 +489,14 @@ const page = () => {
         <AiOutlineClose className='close' onClick={handlefullImage} />
         <div className='flex justify-center'>
 
-          <img src={viewImage} alt="image" srcSet={viewImage} className='modal-content' style={{ maxWidth: '90vw', maxHeight: '90vh', alignSelf: 'center' }} />
+          <CardMedia
+                      component="img"
+                      alt="Image not found"
+                      image={viewImage}
+                      onError={handleImgError}
+                      className='modal-content'
+                      style={{ maxWidth: '90vw', maxHeight: '90vh', alignSelf: 'center' }}                      
+                    />
         </div>
       </div>
       <ToastContainer />

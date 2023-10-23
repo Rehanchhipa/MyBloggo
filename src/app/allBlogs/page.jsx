@@ -32,7 +32,7 @@ const validationSchema = Yup.object().shape({
   id: Yup.string().required("id is required"),
 });
 
-const page = () => {
+const Page = () => {
 
   const dispatch = useDispatch()
   const selectorLogin = useSelector((state)=>state.Login)
@@ -505,4 +505,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

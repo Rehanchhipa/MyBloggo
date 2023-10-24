@@ -36,7 +36,6 @@ const Page = () => {
 
   const dispatch = useDispatch()
   const selectorLogin = useSelector((state)=>state.Login)
-  const selectorallBlogs = useSelector((state)=>state.allBlogs)
   const selectorcreateBlogs = useSelector((state)=>state.createBlog)
   const selectorDeleteBlogs = useSelector((state)=>state.deleteBlog)
   const selectorupdateBlogs = useSelector((state)=>state.updateBlog)
@@ -60,44 +59,7 @@ const Page = () => {
 
   const [loading, setLoading] = useState(false)
 
-  useEffect(() => {
-    
-    if (selectorLogin.id === null){
-        route.push('/')
-      }
-       setuserId(selectorLogin.id)
-    }, [])
-
-    useEffect(()=>{
-      setLoading(selectorcreateBlogs.loading)
-      if(selectorcreateBlogs.data != null){
-        setData(selectorcreateBlogs.data.slice().reverse())
-        dispatch(dataNull())
-        setMyBlog(!myBlog)
-      }
-    },[selectorcreateBlogs])
-
-    useEffect(()=>{
-      setLoading(selectorDeleteBlogs.loading)
-      if(selectorDeleteBlogs.data !=null){
-        setData(selectorDeleteBlogs.data.slice().reverse())
-        dispatch(dataNull1())
-        setMyBlog(!myBlog)
-      }
-    },[selectorDeleteBlogs])
-
-    useEffect(()=>{
-      setLoading(selectorupdateBlogs.loading)
-      if(selectorupdateBlogs.data != null){
-        setData(selectorupdateBlogs.data.slice().reverse())
-        dispatch(dataNull2())
-        setMyBlog(!myBlog)
-      }
-    },[selectorupdateBlogs])
-
-
-
-
+  
   // this is my blog page
 
   const [myBlog, setMyBlog] = useState(false);
@@ -105,21 +67,90 @@ const Page = () => {
   const handleMyBlog = () => {
     setMyBlog(!myBlog);
 
-  };
-  useEffect(()=>{
+  }
 
-    if (myBlog === true) {
-      let newblog = data.filter((v, i) => {
-        return v.id === userid
-      })
-      setCardBlog(newblog)
-      setMyCardBlog(newblog)
+    // this is search blog
+
+    const [search, setSearch] = useState("")
+
+    const handleSearchchange = (e) => {
+      setSearch(e.target.value)
     }
-      else{
-        setCardBlog(data)
+
+  useEffect(() => {
+    
+    if (selectorLogin.id === null){
+        route.push('/')
       }
-  
-  },[myBlog])
+       setuserId(selectorLogin.id)
+    }, [selectorLogin.id, route])
+
+    useEffect(()=>{
+
+      // this is create blog
+
+      setLoading(selectorcreateBlogs.loading)
+      if(selectorcreateBlogs.data != null){
+        setData(selectorcreateBlogs.data.slice().reverse())
+        dispatch(dataNull())
+        setMyBlog(!myBlog)
+      }
+
+      // this is selector deleteBlog
+
+      setLoading(selectorDeleteBlogs.loading)
+      if(selectorDeleteBlogs.data !=null){
+        setData(selectorDeleteBlogs.data.slice().reverse())
+        dispatch(dataNull1())
+        setMyBlog(!myBlog)
+      }
+
+      // this is selectorupdateBlogs
+
+      setLoading(selectorupdateBlogs.loading)
+      if(selectorupdateBlogs.data != null){
+        setData(selectorupdateBlogs.data.slice().reverse())
+        dispatch(dataNull2())
+        setMyBlog(!myBlog)
+      }
+
+      // this is my blog
+
+      if (myBlog === true) {
+        let newblog = data.filter((v, i) => {
+          return v.id === userid
+        })
+        setCardBlog(newblog)
+        setMyCardBlog(newblog)
+        
+      }
+        else{
+          setCardBlog(data)
+        }
+
+        // this is search option
+
+        if (selectorLogin.blogs != null){
+
+          if (myBlog === false) {
+            let filter = data.filter((v, i) => {
+              return v.title.toLowerCase().includes(search.toLowerCase())
+            })
+            setCardBlog(filter)
+          }
+          else {
+            if (search.length > 1){
+              let filter = myCardBlog.filter((v,i)=> {
+                return v.title.toLowerCase().includes(search.toLowerCase())
+              })
+              setCardBlog(filter)
+            }
+          }
+        }
+    
+
+    },[selectorcreateBlogs, selectorDeleteBlogs, selectorupdateBlogs, myBlog, search, data, myCardBlog, dispatch, selectorLogin.blogs, userid])
+
 
 
   // this is popop
@@ -154,36 +185,8 @@ const Page = () => {
       setCardId(null)
       setUpdateBtnActive(false)
     }
-  };
-
-  // this is search blog
-
-  const [search, setSearch] = useState("");
-
-  useEffect((v, i) => {
-
-    if (selectorLogin.blogs != null){
-
-      if (myBlog === false) {
-        let filter = data.filter((v, i) => {
-          return v.title.toLowerCase().includes(search.toLowerCase())
-        })
-        setCardBlog(filter)
-      }
-      else {
-        let filter = myCardBlog.filter((v,i)=> {
-          return v.title.toLowerCase().includes(search.toLowerCase())
-        })
-        setCardBlog(filter)
-      }
-    }
-
-
-  }, [search])
-
-  const handleSearchchange = (e) => {
-    setSearch(e.target.value)
   }
+
 
   //   this is submit  add blogs
 
@@ -196,7 +199,7 @@ const Page = () => {
       dispatch(createBlogFetch(values))
     }
     handleCloseModal()
-  };
+  }
 
   // this is card delete
 

@@ -1,6 +1,5 @@
 "use client";
-import React, { useEffect, useState, memo, useMemo } from "react";
-import {CardMedia} from  '@mui/material'
+import React, { useEffect, useState, memo } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { Button, TextField } from "@mui/material";
 import * as Yup from "yup";
@@ -48,15 +47,12 @@ const LoginPage = () => {
       route.push('/allBlogs')
       dispatch(messageLoginNull())
     }
-  },[selectorLogin])
-
-  useEffect(()=>{
     setLoading(selectorSingin.loading)
     if (selectorSingin.message === 'successfully'){
       setSinginPage(false)
       dispatch(messageNull())
     }
-  },[selectorSingin])
+  },[selectorLogin,selectorSingin,dispatch,route])
 
 
     // this is submit login

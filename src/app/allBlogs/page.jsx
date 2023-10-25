@@ -122,8 +122,13 @@ const Page = () => {
         let newblog = data.filter((v, i) => {
           return v.id === userid
         })
-        setCardBlog(newblog)
-        setMyCardBlog(newblog)
+          let emptyShow = [{
+            title:'your blog in profile has empty',
+            discription:'create new blog'
+          }]
+        
+        setCardBlog(newblog.length === 0 ? emptyShow : newblog)
+        setMyCardBlog(newblog.length === 0 ? emptyShow : newblog)
         
       }
         else{
@@ -344,6 +349,7 @@ const Page = () => {
                   </div>
                   {
                     myBlog ?
+                    v.title != 'your blog in profile has empty' &&
                     <div className="flex justify-around mt-2 mb-4">
                         <Button
                           color="error"

@@ -66,6 +66,7 @@ const Page = () => {
 
   const handleMyBlog = () => {
     setMyBlog(!myBlog);
+    setPopop(!popop)
 
   }
 
@@ -83,6 +84,7 @@ const Page = () => {
         route.push('/')
       }
        setuserId(selectorLogin.id)
+       console.log('useeffect')
     }, [selectorLogin.id, route])
 
     useEffect(()=>{
@@ -164,8 +166,11 @@ const Page = () => {
   // this is logout
 
   const handleLogout = () => {
+    setMyBlog(false)
+    setPopop(!popop)
     setuserId(null)
     route.replace('/')
+    console.log('logout')
   }
 
   // this is modal
@@ -231,7 +236,6 @@ const Page = () => {
   const [fullImage, setFullImage] = useState(false)
 
   const handlefullImage = (v)=>{
-    console.log(v.url)
     setViewImage(v.url)
     setFullImage(!fullImage)
 
@@ -253,7 +257,7 @@ const Page = () => {
             </Button>
             <div
               className="absolute bg-black bg-opacity-25 p-2 mt-1 rounded-2xl z-auto"
-              onMouseLeave={handlePopop}
+              // onMouseLeave={handlePopop}
               style={!popop ? { display: "none" } : { display: "block", color: 'white',zIndex:10}}
             >
               <button className="w-full" onClick={handleMyBlog}>

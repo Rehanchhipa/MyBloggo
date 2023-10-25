@@ -106,6 +106,7 @@ const LoginPage = () => {
                     <Field
                       as={TextField}
                       fullWidth
+                      aria-describedby="my-helper-text"
                       id="email"
                       name="email"
                       label="Email"
